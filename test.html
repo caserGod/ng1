@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="angular.min.js"></script>
+</head>
+<body ng-app='app'>
+	<input type="text" ng-model="msg">
+	<div>{{msg}}</div>
+	
+	<p ng-controller='myCtrol'>
+		今天是{{today}},我是{{name}} <br>
+		
+	</p>
+	<ul ng-controller='myCtrol'>
+		<!-- <li ng-repeat='(key,val) in arr'>{{key}}{{val}}</li> -->
+		<li ng-repeat='key in arr'>{{key}}</li>
+	</ul>
+
+	<ul ng-controller='myCtrol'>
+		<!-- <li ng-repeat='(key,val) in arr'>{{key}}{{val}}</li> -->
+		<li ng-repeat='key in arr1'>{{key}}</li>
+	</ul>
+
+	<select ng-model='select'>
+		<option value="01">1</option>
+		<option value="02" ng-selected='true'>2</option>
+		<option value="03">3</option>
+	</select>
+	<div ng-switch='select'>
+		<div ng-switch-when='01'>1</div>
+		<div ng-switch-when='02'>2</div>
+		<div ng-switch-when='03'>3</div>
+	</div>
+
+	<a ng-include="'tt.html'"></a>
+	
+
+
+	<script>
+	var app=angular.module('app',[]);
+	app.controller('myCtrol',['$scope',function($scope){
+		$scope.today='6.30';
+		$scope.name='wkx';
+		$scope.a='1';
+		$scope.b='2';
+		$scope.arr=['wo','shi','shui'];
+		$scope.arr1=[
+			{'id':'wo'},
+			{'name':'zai'}
+		]
+	}])
+	var arr1=[
+			{'id':'wo'},
+			{'name':'zai'}
+		]
+	console.log(arr1)
+	</script>
+</body>
+</html>

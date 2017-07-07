@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="angular.min.js"></script>
+</head>
+<body ng-app='app'>
+	<ul ng-controller='first'>
+		<li>{{big | lowercase}}</li>
+		<li>{{big | uppercase}}</li>
+		<li ng-bind='money|currency:"￥"'></li>
+		<li ng-bind='date|date:"yyyy-MM-dd HH:mm:ss"'></li>
+		<li>{{names|filter:"w"}}</li>
+		<li>{{students|filter:{"age":23} }}</li>
+		<li>{{students|orderBy:'id'}}</li>
+		<li>{{students|orderBy:'id':true}}</li>
+		<li>{{students|orderBy:'+id'}}</li>
+		<li>{{students|orderBy:'-id'}}</li>
+
+		<li ng-bind='student|json'></li>
+		<li>{{names|limitTo:-2}}</li>
+		<li>
+			<input type="text" ng-model='num'>
+			<span>{{num|number:2}}</span>
+		</li>
+		<li>{{arr|orderBy}}</li>
+		<li>{{arr|orderBy:'':true}}</li>
+
+		<li>{{students|orderBy:['age','id']}}</li>
+	</ul>
+
+
+	<script>
+		var app=angular.module('app',[]);
+		app.controller('first',['$scope',function($scope){
+			$scope.big='AsdF';
+			$scope.money='23';
+			$scope.date=new Date();
+			$scope.names=['w','k','x'];
+			$scope.students=[{'id':23,'name':'w','age':23},
+				{'id':22,'name':'k','age':22},
+				{'id':22,'name':'k','age':22},
+				{'id':24,'name':'w','age':24}
+			];
+			$scope.student=new Object();
+			$scope.student.id=1001;
+			$scope.student.name='张三';
+			$scope.student.age=23;
+			$scope.arr=[3,2,4,3,8,7,8,5]
+
+		}])
+	</script>
+</body>
+</html>

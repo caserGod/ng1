@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="angular.min.js"></script>
+	<style>
+		#box{width:80px;height:80px;background-color:pink;}
+	</style>
+</head>
+<body>
+	<div ng-app='myApp'>
+		<div ng-controller='firstController'>
+			<input type="button" value='单击' ng-click='oneCk()'>
+			<p>{{msg}}</p>
+		</div>
+		<!--  -->
+		<div ng-controller='firstController'>
+			<input type="button" value="双击" ng-click='dbCk()'>
+			<div ng-bind='rand'></div>
+			<!--  -->
+			<div id="box" ng-mouseenter='enter()' ng-mouseleave='leave()' ng-bind='msg'>
+				<div></div>
+			</div>
+			<!--  -->
+			<input type="text" ng-blur='missFocus()' ng-focus='focus()'>
+			<p ng-bind='miss'>{{miss}}</p>
+			<!--  -->
+			<input type="text" ng-model='info' ng-change='change()'>
+			<p ng-bind='info'></p>
+			<p ng-bind='random'></p>
+			<!--  -->
+			<p ng-bind-template='{{a}},{{b}}'></p>
+		</div>
+	</div>
+
+
+
+
+	<script>
+	var app=angular.module('myApp',[]);
+	var count=0;
+	app.controller('firstController',['$scope',function($scope){
+		$scope.oneCk=function(){
+			$scope.msg='第'+ ++count +'条';
+		};
+		$scope.dbCk=function(){
+			$scope.rand=Math.random();
+		};
+		$scope.enter=function(){
+			$scope.msg='上天';
+		};
+		$scope.leave=function(){
+			$scope.msg='入地';
+		};
+		$scope.missFocus=function(){
+			$scope.miss='失焦';
+		};
+		$scope.focus=function(){
+			$scope.miss='得焦';
+		};
+		$scope.change=function(){
+			$scope.random=Math.random()*100;
+		};
+		$scope.a='野怪';
+		$scope.b='螃蟹';
+	}]);
+
+	
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="angular.min.js"></script>
+</head>
+<body ng-app='app'>
+	<div ng-controller='first'>
+		<input type="text" ng-model='inp'>
+		<p>{{inp | self}}</p>
+	</div>
+
+	<script>
+	var app=angular.module('app',[]);
+	app.controller('first',['$scope',function($scope){
+		$scope.inp='dsafdsage';
+	}]);
+
+	app.filter('self',function(){	
+		return function(inp){
+			if(!inp)return;
+			var arr=inp.split('');
+			for(var i=0;i<arr.length;i++){
+				arr[i]=arr[i].toString().toUpperCase();
+			}
+			inp=arr.join('');
+			return inp;
+		}
+	})
+	</script>
+</body>
+</html>

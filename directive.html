@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="angular.min.js"></script>
+    </head>
+    <body ng-app='app'>
+    	<my-Self></my-Self>	
+
+    	<script>
+    	var app=angular.module('app',[]);
+    	app.directive('mySelf',function(){
+    		return{
+    			restrict:'ECMA',
+    			template:'<h1>我是谁</h1>'
+    		}
+    	})
+
+    	</script>
+
+
+    </body>
+</html>

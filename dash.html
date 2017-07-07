@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<style>
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */ {
+  margin: 0;
+  padding: 0;
+}
+
+/** 设置默认字体 **/
+body,
+button, input, select, textarea /* for ie */ {
+  font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/** 重置列表元素 **/
+ul, ol { list-style: none; }
+
+/** 重置文本格式元素 **/
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+
+/** 重置表单元素 **/
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
+button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie 下能继承字体大小 */
+/* 注：optgroup 无法扶正 */
+
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0; }
+
+/* 清除浮动 */
+.ks-clear:after, .clear:after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  overflow:hidden;
+  visibility:hidden;
+}
+.ks-clear, .clear {
+  *zoom: 1;
+}
+
+/*iconfont图标*/
+@font-face {
+	font-family: 'iconfont';
+	src: url('iconfont.eot'); /* IE9*/
+	src: url('iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url('iconfont.woff') format('woff'), /* chrome、firefox */
+	url('iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+	url('iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont{
+	font-family:"iconfont" !important;
+	font-size:16px;
+	font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/*
+ <i class="iconfont icon>#xe序列号;</i>"
+ * */
+
+
+	</style>
+
+<!-- -------------------------------------------------- -->
+
+	
+	<style>
+		.grey{background-color:#eee;}
+		
+		li{position:relative;width:160px;/* opacity:0.8; */}
+		li i{display:block;width:100%;height:100%;position:absolute;
+			background:rgba(222,222,222,0.1);pointer-events:none;
+		}
+		span{-background-color:red;width:40px;height:40px;float:left;}
+		a{-background-color:green;width:80px;height:40px;float:left;}
+		p{-background-color:blue;width:40px;height:40px;float:left;}
+	</style>
+
+<!-- -------------------------------------------------- -->
+
+<script>
+
+//这里的MyFunction相当于公司框架中的方法，我称为父类，里面是一些高度封装的函数
+//或者一些基础的死数据，这时候每一个程序猿都想自己搞一些拓展代码自己用，又不
+//想影响到父类中的东西，直接在父类的原型基础上拓展方法是极其不安全的，会影响
+//到父类，这时需要去拓展子，然后我定义了一个空类，Cnull，然后在这个空类的原型上
+//得到我的父类，之后我只操作我的Cnull，用它添加我想用的方法，比如我想重构父类
+//中的addClass，而且不影响父类，也就是说现在，父类有的，我的Cnull现在都有，
+//而Cnull新添加的那些，父类是不具备的，然后再new一下我的这个Cnull，相当于添加了
+//一个中间媒介。
+//
+
+window.onload=function(){
+	var MyFunction=function(){
+		/*this.myStyle='clear';
+		this.bgClass='grey';*/
+		// ..............
+	};
+	MyFunction.myStyle='clear';
+	MyFunction.bgClass='grey';
+	MyFunction.prototype.getID=function(str){
+		var obj=document.getElementById(str);
+		return obj;
+	};
+	MyFunction.prototype.addClass=function(obj,myClass){
+		//这里想起来有一个兼容问题，获取行间样式，getComputedStyle，
+		//getcurrentstyle，这个方法可以代替
+		var arr=obj.className.split(' ');
+		if(!obj.className){
+			obj.className=myClass;
+			return;
+		}
+		for(var i=0;i<arr.length;i++){
+			if(arr[i]==myClass) return;
+		}
+		obj.className+=' '+myClass;
+	};
+	MyFunction.prototype.removeClass=function(obj,myClass){
+		var arr=obj.className.split(' ');
+		if(!obj.className) return;    
+		for(var i=0;i<arr.length;i++){
+			if(arr[i]==myClass){
+				arr.splice(i,1,'');		//删除当前查找到的一样的class
+				obj.className=arr.join(' ');
+				break;		//循环跑的更快;其实可以没有这句；
+			}
+		}	
+	};
+// ////////////////////////////////////////////
+	//var cons=new MyFunction();
+	var Cnull = function(){};
+
+	Cnull.prototype =MyFunction;
+	//debugger;
+	Cnull.prototype.addClass=function(obj,myClass){
+		var arr=obj.className.split(' ');
+		if(!obj.className){
+			obj.className=myClass;
+			return;
+		}
+		for(var i=0;i<arr.length;i++){
+			if(arr[i]==myClass) return;
+		}
+		obj.className+=' '+myClass;
+	};
+	//debugger;
+	//console.log(Cnull)	//用debugger可以看到我的Cnull现在有什么
+	var cons=new Cnull();
+	console.log(Cnull)
+	console.log(cons)
+	//console.log(cons.prototype==MyFunction.prototype)	//面试中重名问题
+	var oLi=document.querySelectorAll('li');
+	oLi=Array.prototype.slice.call(oLi);
+	for(i in oLi){		//什么时候可以用这个
+		cons.addClass(oLi[i],cons.myStyle);		
+		//ps:Cannot read property 'split' of undefined,  见前两行
+	}
+	//ps：我在cons中可以自由的定义我想用的函数，之前的MyFunction类相当于
+	//公司的架构，在我实例化我的cons后，调用的方法将在原型链prototype上
+	//就近查找，也就是函数重名也不怕覆盖或影响到架构中原有的，
+	//有的用自己的，没有的就找架构中去借；
+
+	var oA=document.querySelectorAll('a');
+	oA=Array.prototype.slice.call(oA);     
+	//写到这里突然就应该明白插件的代码实现原理，上层函数返回的值，将会是下面
+	//操作函数的参数来源
+	Cnull.prototype.myAddEvent=function(obj,ev,fn){
+		//事件添加兼容
+		if(obj.attachEvent){
+			obj.attachEvent('on'+ev,fn);
+		}else{
+			obj.addEventListener(ev,fn);
+		}
+	};
+	var index=0;
+	var oUl=document.querySelector('ul');
+	var oI=document.querySelectorAll('i');
+	Cnull.prototype.searchIndex=function(e,obj,index){
+		//debugger;
+		var e=e||window.event;
+		var target=e.target||e.srcElement;
+		console.log(target)
+		obj=Array.prototype.slice.call(obj);
+		index=obj.indexOf(target);
+		console.log(index);
+	}
+	// 、、、、、、、、、、、、、、、、、、、、、、
+	//cons.myAddEvent(oUl,'mouseover',cons.searchIndex(event,oP,index));
+	/*oUl.onmouseover=function(){
+		return cons.searchIndex(event,oP,index);
+	};*/			
+	//问题在这里，事件委托后，兼听不到我的li事件流的变化，
+	//反而能兼听到li中的a，span，p，然后我又添加了下面一个函数search
+	// 、、、、、、、、、、、、、、、、、、、、、、
+	Cnull.prototype.searchIn=function(e,obj,index){
+		//debugger;
+		var e=e||window.event;
+		var target=e.target||e.srcElement;
+		if(target.nodeName=='I'){
+			console.log(target)
+			obj=Array.prototype.slice.call(obj);
+			index=obj.indexOf(target);
+			console.log(index);
+
+			//////////////////////////实现效果
+			for(i in oLi){	
+				if(i==index){
+					//cons.removeClass(oLi[i],cons.bgClass);
+					cons.addClass(oLi[index],cons.bgClass);
+					//break;
+				}					
+			} 
+		}		
+	};
+	//debugger;
+	cons;
+	Cnull.prototype.searchOut=function(e,obj,index){
+		//debugger;
+		var e=e||window.event;
+		var target=e.target||e.srcElement;
+		console.log(1)
+		if(target.nodeName=='I'){
+			console.log(target)
+			obj=Array.prototype.slice.call(obj);
+			index=obj.indexOf(target);
+			//debugger;
+			console.log(cons.removeClass);
+			console.log(Cnull);
+			console.log(cons);
+
+			//////////////////////////实现效果
+			for(i in oLi){	
+				if(i==index){
+					//cons.removeClass(oLi[i],cons.bgClass);
+					cons.prototype.removeClass(oLi[index],cons.bgClass);
+					//break;
+				}					
+			} 
+		}		
+	};
+	oUl.onmouseover=function(){
+		return cons.searchIn(event,oI,index);
+	};
+	oUl.onmouseout=function(){
+		return cons.searchOut(event,oI,index);
+	};
+
+
+
+	var p=document.querySelectorAll('p');
+	p=Array.prototype.slice.call(p)
+	console.log(p[1])
+	p[1].onmouseover=function(){
+		console.log(5)
+	}
+/*	var index;
+	cons.myAddEvent(ul,'mouseover',function(e){
+		var e=e||window.event;
+		var target=e.target||e.srcElement;
+		li=Array.prototype.slice.call(li);
+		index=li.indexOf(target);
+		console.log(index);
+	});*/	//本来我是想这样调取的，发现我要无限的使用这个fn函数,
+		//每次可能判断的是li,a,p,span ,于是我又愉快的封装了一下我的函数，
+		//ps：这里我常使用的一个获取当前元素索引的方法，
+		//index=li.indexOf(target);li指的是此类元素的集合，target值得是
+		//当前这个li对象，看它在集合中排第几，当然这是数组的方法，你需要
+		//先转化伪数组，写到这里突然想起来有一次面试，问道“你知道有哪些伪数组，
+		//querySelectorAll()，children(),childNodes返回的都是伪数组，   还有
+		//在jquery中也可以这样查找，很方便， li.index($this),只不过这里的
+		//target事件流变成了$this，直接写this是不可以的，这里又牵扯到原生对象
+		//和jquery对象的区别$.get()什么东东的，我了解不深。。。
+/*	var sum=0;
+	var num=6;
+
+	for(var i=1;i<num;i++){
+		if(!(num%i)){
+			if(i!=num){
+				sum+=i;	
+				if(sum==num){
+					console.log('chenggong')
+				}			
+			}
+		}
+	}*/
+
+	
+
+
+
+}
+</script>
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+	<ul>
+		<li>
+			<i></i>
+			<span>span</span>
+			<a href=""> aaa</a>
+			<p>p</p>
+		</li>
+		<li>
+			<i></i>
+			<span>22222</span>
+			<a href=""> 二二二</a>
+			<p>22222</p>
+		</li>
+		<li>
+			<i></i>
+			<span>33333</span>
+			<a href="">三三三</a>
+			<p>33333</p>
+		</li>
+	</ul>
+</body>
+</html>

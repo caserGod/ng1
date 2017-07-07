@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="angular.min.js"></script>
+</head>
+<body>
+	<div ng-app='app' ng-init='name="wkx"'>
+		<p ng-bind='name'></p>
+		<div ng-controller='first'>
+			<div ng-bind='name'></div>
+		</div>
+
+		<!--  -->
+		<div ng-controller='second'>
+			<input type="text" ng-model='b'>
+			<div ng-bind='b'></div>
+		</div>
+		<!--  -->
+		<div ng-controller='third'>
+			<input type="text" ng-model='c'>
+			<div ng-bind='c'></div>
+		</div>
+	</div>
+
+	<script>
+	var app=angular.module('app',[]);
+	app.controller('first',['$scope',function($scope){
+
+	}])
+	app.controller('second',['$scope',function($scope){
+
+	}]);
+	app.controller('third',['$scope',function($scope){
+
+	}])
+	</script>
+</body>
+</html>
